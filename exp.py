@@ -102,5 +102,26 @@ class Exp:
     def test(self, args):
         config = args.__dict__
         epoch = self.args.test_epoch
+        model = self.model
+        
+        ckpt = torch.load(os.path.join(self.checkpoints_path, f'{epoch}.pth'))
+        model.load_statd_dict(ckpt)
+        model.to(self.device)
+        model.eval()
+
+        savedir = os.path.join('results', f'epoch_{epoch}')     # directory for saving results of the model
+        os.makedirs(savedir, exist_ok=True)
+            
+        input_list, true_list, pred_list = [], [], []
+        idx = list(range(len(self.test_set)))
+        for i in tqdm(idx):
+            batch_x, batch_y = laod_data(idx=[i], mode='test', **config)
+            pred_y = self.model(batch_x.to(self.device))
+
+            inputs = batch_x.cpu().detach().numpy()
+            targets = batch_y.cpu().detach().numpy()
+            preds = pred_y.cpu().detach().numpy()
+            np.savez_compressed(os.path.join(savedir, f'{str(i).zfill(4)}'), inp=inputs, tar=targets, pred=preds)
+        
         
   
