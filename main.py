@@ -26,11 +26,14 @@ def create_parser():
     parser.add_argument('--hidden_n', default=64, type=int)
     parser.add_argument('--out_n', default=1, type=int)
   
-    # Training parametersf
+    # Training parameters
     parser.add_argument('--epochs', default=100, type=int)
     parser.add_argument('--log_step', default=1, type=int)
     parser.add_argument('--lr', default=0.0001, type=float, help='Learning rate')
     parser.add_argument('--is_train', default=True, type=bool)
+
+    # Test parameters
+    parser.add_argument('--test_epoch', default=100, type=int, help='Epoch of model which you test')
     return parser
 
 if __name__ == '__main__':
