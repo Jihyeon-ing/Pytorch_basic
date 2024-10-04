@@ -40,7 +40,7 @@ class Exp:
             self.model.train()
   
             n_step = len(self.train_set) // self.batch_size
-            idx = list(range(self.train_set))
+            idx = list(range(len(self.train_set)))
             random.shuffle(idx)
 
             for step in tqdm(range(n_step)):
